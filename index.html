@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DISCIPLINE APP</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+:root{
+--bg:#050505;
+--card:#101010;
+--card2:#181818;
+--gold:#d4af37;
+--gold2:#f0d060;
+--white:#f2f2f2;
+--gray:#888;
+--border:rgba(255,255,255,.06);
+--green:#47d16c;
+--red:#d85858;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:#050505;
+color:white;
+min-height:100vh;
+overflow-x:hidden;
+padding:22px;
+background-image:
+radial-gradient(circle at top, rgba(212,175,55,.08), transparent 35%);
+}
+
+body::before{
+content:'';
+position:fixed;
+inset:0;
+pointer-events:none;
+background:url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop');
+background-size:cover;
+background-position:center;
+opacity:.03;
+filter:grayscale(100%);
+}
+
+.container{
+width:100%;
+max-width:480px;
+margin:auto;
+}
+
+.hero{
+position:relative;
+overflow:hidden;
+min-height:360px;
+border-radius:34px;
+padding:32px;
+display:flex;
+align-items:flex-end;
+border:1px solid var(--border);
+box-shadow:
+0 0 80px rgba(0,0,0,.8),
+0 0 120px rgba(212,175,55,.05);
+}
+
+.hero img{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+filter:grayscale(100%) brightness(.28) contrast(1.15);
+transform:scale(1.08);
+}
+
+.overlay{
+position:absolute;
+inset:0;
+background:
+linear-gradient(to top, rgba(0,0,0,1) 10%, transparent 100%),
+linear-gradient(to right, rgba(0,0,0,.75), transparent 70%),
+radial-gradient(circle at top, rgba(212,175,55,.12), transparent 30%);
+}
+
+.hero-content{
+position:relative;
+z-index:2;
+}
+
+.eyebrow{
+font-size:10px;
+letter-spacing:.35em;
+text-transform:uppercase;
+color:var(--gold);
+margin-bottom:16px;
+}
+
+.title{
+font-family:'Bebas Neue',sans-serif;
+font-size:108px;
+line-height:.9;
+letter-spacing:.05em;
+}
+
+.accent{
+color:transparent;
+-webkit-text-stroke:2px var(--gold);
+}
+
+.quote{
+margin-top:14px;
+font-size:12px;
+line-height:1.8;
+letter-spacing:.18em;
+text-transform:uppercase;
+color:rgba(255,255,255,.55);
+max-width:320px;
+}
+
+.card{
+margin-top:18px;
+background:linear-gradient(180deg,var(--card),var(--card2));
+border-radius:30px;
+padding:24px;
+border:1px solid var(--border);
+backdrop-filter:blur(18px);
+}
+
+.label{
+font-size:10px;
+letter-spacing:.2em;
+text-transform:uppercase;
+color:var(--gray);
+}
+
+.money{
+font-family:'Bebas Neue',sans-serif;
+font-size:74px;
+line-height:1;
+margin-top:10px;
+}
+
+.bar{
+margin-top:18px;
+height:10px;
+background:#1a1a1a;
+border-radius:999px;
+overflow:hidden;
+}
+
+.fill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,var(--gold),var(--gold2));
+box-shadow:0 0 30px rgba(212,175,55,.5);
+transition:width .5s ease;
+}
+
+.progress-text{
+margin-top:10px;
+font-size:11px;
+letter-spacing:.12em;
+text-transform:uppercase;
+color:rgba(255,255,255,.45);
+}
+
+.stats{
+margin-top:18px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+}
+
+.stat{
+background:#0f0f0f;
+border-radius:24px;
+padding:18px;
+border:1px solid var(--border);
+}
+
+.stat-value{
+font-family:'Bebas Neue',sans-serif;
+font-size:42px;
+margin-top:8px;
+color:var(--gold);
+}
+
+.action{
+margin-top:18px;
+background:linear-gradient(180deg,var(--card),#0d0d0d);
+padding:24px;
+border-radius:30px;
+border:1px solid var(--border);
+}
+
+.input{
+width:100%;
+height:58px;
+margin-top:16px;
+background:#0c0c0c;
+border:1px solid rgba(255,255,255,.08);
+border-radius:18px;
+padding:0 18px;
+font-size:18px;
+color:white;
+outline:none;
+}
+
+.input:focus{
+border-color:var(--gold);
+box-shadow:0 0 0 3px rgba(212,175,55,.08);
+}
+
+.btn{
+width:100%;
+height:60px;
+margin-top:14px;
+background:linear-gradient(90deg,var(--gold),var(--gold2));
+color:black;
+font-family:'Bebas Neue',sans-serif;
+font-size:22px;
+letter-spacing:.1em;
+border:none;
+border-radius:18px;
+cursor:pointer;
+transition:.2s;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+}
+
+.rank{
+margin-top:18px;
+position:relative;
+overflow:hidden;
+border-radius:30px;
+padding:24px;
+border:1px solid rgba(212,175,55,.15);
+min-height:180px;
+display:flex;
+align-items:flex-end;
+}
+
+.rank-bg{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+filter:grayscale(100%) brightness(.22) contrast(1.1);
+transition:0.4s ease;
+}
+
+.rank-overlay{
+position:absolute;
+inset:0;
+background:linear-gradient(to top, rgba(0,0,0,1) 20%, rgba(0,0,0,.2));
+z-index:2;
+}
+
+.rank-content{
+position:relative;
+z-index:3;
+}
+
+.rank-title{
+font-family:'Bebas Neue',sans-serif;
+font-size:58px;
+line-height:1;
+}
+
+.rank-sub{
+margin-top:10px;
+font-size:12px;
+line-height:1.8;
+letter-spacing:.12em;
+text-transform:uppercase;
+color:rgba(255,255,255,.6);
+max-width:280px;
+}
+
+.history-item{
+padding:14px 0;
+border-bottom:1px solid rgba(255,255,255,.05);
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.history-item:last-child{
+border:none;
+}
+
+.history-money{
+font-family:'Bebas Neue',sans-serif;
+font-size:30px;
+color:var(--gold);
+}
+
+.history-date{
+font-size:11px;
+letter-spacing:.12em;
+text-transform:uppercase;
+color:var(--gray);
+margin-top:4px;
+}
+
+.remove-btn{
+background:none;
+border:none;
+color:var(--red);
+font-size:20px;
+cursor:pointer;
+opacity:.7;
+transition:.2s;
+}
+
+.remove-btn:hover{
+opacity:1;
+transform:scale(1.1);
+}
+
+.reset-btn{
+margin-top:16px;
+width:100%;
+height:48px;
+background:#0b0b0b;
+border:1px solid rgba(255,255,255,.06);
+color:#d85858;
+border-radius:14px;
+cursor:pointer;
+letter-spacing:.15em;
+text-transform:uppercase;
+font-size:11px;
+font-weight:700;
+}
+
+.footer{
+margin-top:30px;
+text-align:center;
+font-size:10px;
+letter-spacing:.25em;
+text-transform:uppercase;
+color:rgba(255,255,255,.25);
+padding-bottom:30px;
+}
+
+.glow{
+animation:glow .6s ease;
+}
+
+@keyframes glow{
+0%{transform:scale(1);}
+50%{transform:scale(1.03);box-shadow:0 0 40px rgba(212,175,55,.25);}
+100%{transform:scale(1);}
+}
+
+.complete{
+margin-top:18px;
+padding:22px;
+border-radius:24px;
+background:linear-gradient(135deg,#1a1300,#0b0b0b);
+border:1px solid rgba(212,175,55,.2);
+text-align:center;
+display:none;
+}
+
+.complete.show{
+display:block;
+}
+
+.complete h2{
+font-family:'Bebas Neue',sans-serif;
+font-size:48px;
+color:var(--gold2);
+letter-spacing:.08em;
+}
+
+.complete p{
+margin-top:10px;
+font-size:12px;
+letter-spacing:.14em;
+text-transform:uppercase;
+color:rgba(255,255,255,.55);
+line-height:1.8;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="hero">
+<img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?q=80&w=1200&auto=format&fit=crop">
+<div class="overlay"></div>
+<div class="hero-content">
+<div class="eyebrow">Discipline • Consistency • Focus</div>
+<div class="title">META <span class="accent">10K</span></div>
+<div class="quote">Sem atalhos. Sem desculpas. Apenas evolução diária.</div>
+</div>
+</div>
+
+<div class="card" id="mainCard">
+<div class="label">Total guardado</div>
+<div class="money" id="money">R$ 0</div>
+<div class="bar"><div class="fill" id="fill"></div></div>
+<div class="progress-text" id="progressText">Faltam R$ 10.000 para sua meta.</div>
+</div>
+
+<div class="stats">
+<div class="stat">
+<div class="label">Meta</div>
+<div class="stat-value">10K</div>
+</div>
+<div class="stat">
+<div class="label">Progresso</div>
+<div class="stat-value" id="progress">0%</div>
+</div>
+<div class="stat">
+<div class="label">Aportes</div>
+<div class="stat-value" id="count">0</div>
+</div>
+<div class="stat">
+<div class="label">Rendeu</div>
+<div class="stat-value" id="yield">R$0</div>
+</div>
+</div>
+
+<div class="action">
+<div class="label">Registrar aporte</div>
+<input class="input" id="input" type="number" placeholder="Digite um valor">
+<button class="btn" onclick="addMoney()">GUARDAR DINHEIRO</button>
+<button class="reset-btn" onclick="resetApp()">Reiniciar progresso</button>
+</div>
+
+<div class="complete" id="completeBanner">
+<h2>META ATINGIDA</h2>
+<p>Você chegou aos 10 mil.<br>Disciplina vencendo o caos.</p>
+</div>
+
+<div class="rank">
+<img class="rank-bg" id="rankImage" src="">
+<div class="rank-overlay"></div>
+<div class="rank-content">
+<div class="label">Seu nível</div>
+<div class="rank-title" id="rankTitle">-</div>
+<div class="rank-sub" id="rankSub">-</div>
+</div>
+</div>
+
+<div class="card">
+<div class="label">Histórico</div>
+<div id="history"></div>
+</div>
+
+<div class="footer">
+DISCIPLINE APP — DARK MONEY AESTHETIC
+</div>
+
+</div>
+
+<script>
+const TARGET = 10000;
+
+let total = Number(localStorage.getItem('disc_total')) || 0;
+let count = Number(localStorage.getItem('disc_count')) || 0;
+let history = JSON.parse(localStorage.getItem('disc_history')) || [];
+
+function save(){
+localStorage.setItem('disc_total', total);
+localStorage.setItem('disc_count', count);
+localStorage.setItem('disc_history', JSON.stringify(history));
+}
+
+function getRank(value){
+if(value >= 3000){
+return {
+name:'REI',
+sub:'O topo do império. Sua disciplina moldou o seu destino.',
+img:'https://images.unsplash.com/photo-1599409675179-87cd3d7c86b5?q=80&w=1200&auto=format&fit=crop'
+}
+}
+
+if(value >= 1500){
+return {
+name:'ESPARTANO',
+sub:'Guerreiro da consistência. Sem recuar, foco total.',
+img:'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=1200&auto=format&fit=crop'
+}
+}
+
+if(value >= 800){
+return {
+name:'ADULTO',
+sub:'Construindo bases sólidas. Maturidade em andamento.',
+img:'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop'
+}
+}
+
+if(value >= 400){
+return {
+name:'JOVEM',
+sub:'Dando os primeiros passos sérios rumo ao topo.',
+img:'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1200&auto=format&fit=crop'
+}
+}
+
+return {
+name:'CRIANÇA',
+sub:'Fase inicial. Juntando as fundações do império.',
+img:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=1200&auto=format&fit=crop'
+}
+}
+
+function render(){
+save();
+
+const pct = Math.min((total / TARGET) * 100, 100);
+
+const formattedMoney = total.toLocaleString('pt-BR', {
+minimumFractionDigits:2,
+maximumFractionDigits:2
+});
+
+document.getElementById('money').innerHTML = 'R$ ' + formattedMoney;
+
+document.getElementById('fill').style.width = pct + '%';
+document.getElementById('progress').innerHTML = Math.floor(pct) + '%';
+document.getElementById('count').innerHTML = count;
+
+document.getElementById('yield').innerHTML =
+'R$ ' + Math.floor(total * 0.02).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+const faltam = TARGET - total;
+
+if(faltam > 0){
+document.getElementById('progressText').innerHTML =
+'Faltam R$ ' + faltam.toLocaleString('pt-BR', { minimumFractionDigits:2 }) + ' para sua meta.';
+}else{
+document.getElementById('progressText').innerHTML =
+'Você conquistou sua meta financeira.';
+}
+
+const rank = getRank(total);
+document.getElementById('rankTitle').innerHTML = rank.name;
+document.getElementById('rankSub').innerHTML = rank.sub;
+document.getElementById('rankImage').src = rank.img;
+
+const historyEl = document.getElementById('history');
+
+if(history.length === 0){
+historyEl.innerHTML = `
+<div class="history-date" style="padding-top:12px;">
+Nenhum aporte registrado.
+</div>`;
+}else{
+historyEl.innerHTML = history.map((item,index) => `
+<div class="history-item">
+<div>
+<div class="history-money">+ R$ ${Number(item.value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+<div class="history-date">${item.date}</div>
+</div>
+<button class="remove-btn" onclick="removeItem(${index})">✕</button>
+</div>
+`).join('');
+}
+
+const banner = document.getElementById('completeBanner');
+
+if(total >= TARGET){
+banner.classList.add('show');
+}else{
+banner.classList.remove('show');
+}
+}
+
+function addMoney(){
+const input = document.getElementById('input');
+const value = Number(input.value);
+
+if(!value || value <= 0) return;
+
+total += value;
+count++;
+
+const agora = new Date();
+
+history.unshift({
+value,
+date: agora.toLocaleDateString('pt-BR') + ' • ' + agora.toLocaleTimeString('pt-BR', {
+hour:'2-digit',
+minute:'2-digit'
+})
+});
+
+input.value = '';
+
+const card = document.getElementById('mainCard');
+card.classList.remove('glow');
+void card.offsetWidth;
+card.classList.add('glow');
+
+render();
+}
+
+function removeItem(index){
+const item = history[index];
+
+if(!item) return;
+
+if(confirm('Remover este aporte?')){
+total -= Number(item.value);
+count--;
+history.splice(index,1);
+render();
+}
+}
+
+function resetApp(){
+if(confirm('Tem certeza que deseja apagar tudo?')){
+localStorage.clear();
+total = 0;
+count = 0;
+history = [];
+render();
+}
+}
+
+render();
+</script>
+
+</body>
+</html>
