@@ -25,6 +25,7 @@ box-sizing:border-box;
 --border:rgba(255,255,255,.06);
 --green:#47d16c;
 --red:#d85858;
+--blue:#4da6ff;
 }
 
 body{
@@ -438,6 +439,13 @@ line-height:1.8;
 <div class="label">Registrar aporte</div>
 <input class="input" id="input" type="number" placeholder="Digite um valor">
 <button class="btn" onclick="addMoney()">GUARDAR DINHEIRO</button>
+
+<div style="margin-top:26px;border-top:1px solid rgba(255,255,255,.05);padding-top:20px;">
+<div class="label" style="color:var(--blue);">Sincronizar saldo real</div>
+<input class="input" id="syncInput" type="number" placeholder="Digite o saldo atual do banco" style="border-color:rgba(77,166,255,.15)">
+<button class="btn" onclick="syncBalance()" style="background:linear-gradient(90deg,#3b82f6,#60a5fa);">SINCRONIZAR RENDIMENTO</button>
+</div>
+
 <button class="reset-btn" onclick="resetApp()">Reiniciar progresso</button>
 </div>
 
@@ -562,15 +570,22 @@ historyEl.innerHTML = `
 Nenhum aporte registrado.
 </div>`;
 }else{
-historyEl.innerHTML = history.map((item,index) => `
+historyEl.innerHTML = history.map((item,index) => {
+const isYield = item.type === 'yield';
+const formattedValue = Number(item.value).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+return `
 <div class="history-item">
 <div>
-<div class="history-money">+ R$ ${Number(item.value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+<div class="history-money" style="color:${isYield ? '#4da6ff' : '#d4af37'}">
+${isYield ? `🔄 Rendimento: + R$ ${formattedValue}` : `+ R$ ${formattedValue}`}
+</div>
 <div class="history-date">${item.date}</div>
 </div>
 <button class="remove-btn" onclick="removeItem(${index})">✕</button>
 </div>
-`).join('');
+`;
+}).join('');
 }
 
 const banner = document.getElementById('completeBanner');
@@ -595,6 +610,7 @@ const agora = new Date();
 
 history.unshift({
 value,
+type:'deposit',
 date: agora.toLocaleDateString('pt-BR') + ' • ' + agora.toLocaleTimeString('pt-BR', {
 hour:'2-digit',
 minute:'2-digit'
@@ -611,14 +627,53 @@ card.classList.add('glow');
 render();
 }
 
+function syncBalance(){
+const syncInput = document.getElementById('syncInput');
+const newBalance = Number(syncInput.value);
+
+if(!newBalance || newBalance <= 0) return;
+
+const difference = newBalance - total;
+
+if(difference <= 0){
+alert('O saldo informado precisa ser maior que o saldo atual.');
+return;
+}
+
+const agora = new Date();
+
+total = newBalance;
+
+history.unshift({
+value:difference,
+type:'yield',
+date: agora.toLocaleDateString('pt-BR') + ' • ' + agora.toLocaleTimeString('pt-BR', {
+hour:'2-digit',
+minute:'2-digit'
+})
+});
+
+syncInput.value = '';
+
+const card = document.getElementById('mainCard');
+card.classList.remove('glow');
+void card.offsetWidth;
+card.classList.add('glow');
+
+render();
+}
+
 function removeItem(index){
 const item = history[index];
 
 if(!item) return;
 
-if(confirm('Remover este aporte?')){
+if(confirm('Remover este registro?')){
 total -= Number(item.value);
+
+if(item.type !== 'yield'){
 count--;
+}
 history.splice(index,1);
 render();
 }
